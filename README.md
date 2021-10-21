@@ -5,6 +5,15 @@
 ### (이미지, 비디오, 웹캠)
 ---
 
+```bash
+"./data/classes/custom.names"
+
+# 이미지 객체 검색
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images ./data/images/dog.jpg
+
+```
+
+
 yolov4-custom-functions
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
