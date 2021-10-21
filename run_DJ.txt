@@ -1,0 +1,136 @@
+https://www.youtube.com/watch?v=AAPZLK41rek&ab_channel=TheAIGuy
+https://github.com/theAIGuysCode/yolov4-custom-functions#license
+
+
+사전에 학습한 번호판 인식 weight 파일을 다운 받는다. 
+data 폴더 안에 넣어준다.
+
+data - classes 폴더 안에 custom.names 파일을 만들어 준다. (클래스 이름 만들어 주기)
+(내용은 : license_plate  하나이다. (class가 하나이므로))
+
+core - config.py 에 들어가서 수정
+("./data/classes/coco.names"  => "./data/classes/custom.names")
+
+## 커스텀 웨이트 컨버트
+# custom yolov4
+python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
+python save_model.py --weights ./data/custom_aiguy.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
+----------------------------------------
+## 만약 yolov4.weight를 하고 싶으면 다운받아 data 폴더에 넣고 컨버트해준다.
+core - config.py 에 들어가서 수정
+("./data/classes/coco.names")
+
+# 컨버드 명령어
+python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4
+----------------------------------------
+core - config.py 에 들어가서 수정 => ("./data/classes/coco.names")
+
+# Run yolov4 tensorflow model
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images ./data/images/kite.jpg
+
+# Run yolov4 on video
+python detect_video.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --video ./data/video/video.mp4 --output ./detections/results.avi
+
+# Run yolov4 on webcam
+python detect_video.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --video 0 --output ./detections/results.avi
+
+---------------------------------------
+---------------------------------------
+##### 옵션 ##### (섞어 쓰기 가능)
+
+#### 오브젝트 count 하기 (--count 옵션) : ~.jpg --count
+# Run yolov4 model while counting total objects detected
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images ./data/images/dog.jpg --count
+
+# video count
+python detect_video.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --video ./data/video/video.mp4 --output ./detections/results.avi --count
+
+#### 좌표 정보 보기 (--info 옵션) : ~.jpg --info
+# image
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images ./data/images/dog.jpg --info
+
+Object found: bicycle, Confidence: 0.99, BBox Coords (xmin, ymin, xmax, ymax): 127.0, 130.0, 567.0, 425.0
+Object found: dog, Confidence: 0.99, BBox Coords (xmin, ymin, xmax, ymax): 132.0, 232.0, 312.0, 537.0
+Object found: truck, Confidence: 0.92, BBox Coords (xmin, ymin, xmax, ymax): 466.0, 74.0, 693.0, 172.0
+
+# video
+python detect_video.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --video ./data/video/video.mp4 --output ./detections/results.avi --count --info
+
+=> (프레임 별로 모든 정보 송출)
+Number of persons: 3
+Number of cars: 1
+Number of bicycles: 1
+Object found: person, Confidence: 0.98, BBox Coords (xmin, ymin, xmax, ymax): 233.0, 0.0, 513.0, 357.0
+Object found: person, Confidence: 0.97, BBox Coords (xmin, ymin, xmax, ymax): 557.0, 129.0, 608.0, 274.0
+Object found: car, Confidence: 0.96, BBox Coords (xmin, ymin, xmax, ymax): 132.0, 127.0, 242.0, 252.0
+Object found: person, Confidence: 0.95, BBox Coords (xmin, ymin, xmax, ymax): 504.0, 132.0, 560.0, 285.0
+Object found: bicycle, Confidence: 0.79, BBox Coords (xmin, ymin, xmax, ymax): 81.0, 185.0, 137.0, 238.0
+
+#### 선택된 이미지 crop 하여 저장 (--crop 옵션) :  ~.jpg --crop
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images ./data/images/dog.jpg --crop
+(dections - crop 폴더에 파일이름 폴더로 저장)
+
+
+---------------------------------------
+---------------------------------------
+
+# 테서렉트 설치
+https://github.com/UB-Mannheim/tesseract/wiki
+설치 후 환경변수 등록
+https://github.com/tesseract-ocr/ 에서 학습된 언어 모델을 다운받아 C:\Program Files\Tesseract-OCR\tessdata 추가
+tessdata 라고 검색 후 kor 등 을 찾는다.
+< 참고 : https://joyhong.tistory.com/79 >
+
+
+core - utils.py 에 각종 기능들이 담겨 있음
+
+++++++++++++++++++++++++++++++++++++++++++++++
+
+# 테서렉트 오피셜
+https://github.com/tesseract-ocr/tessdoc
+
+
+
+
+-------------------------------
+-------------------------------
+core - config.py 에 들어가서 수정 => ("./data/classes/coco.names") => ("./data/classes/custom.names")
+
+core - utils.py 에 tesseract 경로 추가
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+(번호판 문자 사진에 출력 안되는 문제 해결)
+
+++++++++++++++++++++++++
+
+## 번호판 위 이미지 인식해 글 추가 하기.
+# Run License Plate Recognition
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/car2.jpg --plate
+
+
+
+------------------
+## 비디오 위에 번호판 글씨 추가하기.
+# Run video
+python detect_video.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --video ./data/video/license_plate.mp4 --output ./detections/recognition.avi --plate
+
+-but 영상에서 crop 안됨
+# crop 한 것을 사용 (속도가 빠름)
+python detect_video.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --video ./data/video/license_plate.mp4 --output ./detections/recognition.avi --crop
+
+## 캠 위에 번호판 글씨 추가하기.
+python detect_video.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --video 0 --output ./detections/results.avi --plate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
