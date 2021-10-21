@@ -1,4 +1,11 @@
-# yolov4-custom-functions
+# Project 6-1
+
+# YOLO_V4를 통한 객체인식 : 차량 번호판 인식
+
+### (이미지, 비디오, 웹캠)
+---
+
+yolov4-custom-functions
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 A wide range of custom functions for YOLOv4, YOLOv4-tiny, YOLOv3, and YOLOv3-tiny implemented in TensorFlow, TFLite and TensorRT.
