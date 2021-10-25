@@ -6,6 +6,7 @@
 ---
 
 메인폴더에 checkpoints 폴더 추가  
+
 data 폴더에 custom.weight , yolov4.weghts 파일 추가
 
 ---
