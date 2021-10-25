@@ -1,0 +1,34 @@
+# 제외 대상 폴더
+checkpoints/
+
+
+
+# 제외 대상 파일
+data/custom.weights
+data/yolov4.weights
+data/video/5.mp4
+data/video/11.mp4
+data/video/12.mp4
+data/helpers/
+detections/crop/
+detections/pre/
+detections/results1.mp4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
