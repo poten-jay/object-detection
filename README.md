@@ -4,6 +4,9 @@
 
 ### (이미지, 비디오, 웹캠)
 ---
+메인폴더에 checkpoints 폴더 추가
+data 폴더에 custom.weight , yolov4.weghts 파일 추가
+---
 ## 프로젝트 목적
 
 한국에는 **수많은 CCTV가 존재한다. 그 중 교통관련 CCTV 수는 압도적이다. 그 외적으로 생활안전 CCTV, 사설 CCTV, 블랙박스** 등이 있다.
